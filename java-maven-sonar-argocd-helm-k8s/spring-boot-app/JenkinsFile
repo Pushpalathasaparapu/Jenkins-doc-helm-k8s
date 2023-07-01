@@ -46,6 +46,9 @@ pipeline {
       }
     }
     stage ('Helm Deploy') {
+      environment {
+          PATH = "$PATH:/usr/local/bin/helm"
+      }
       steps {
         script {
             sh "helm upgrade first --install mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
