@@ -46,19 +46,17 @@ pipeline {
       }
     }
     stage("Install Helm") {
-
-    steps {
-        sh 'wget https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz'
-        sh 'tar -xvzf helm-v3.6.1-linux-amd64.tar.gz'
-        sh 'sudo cp linux-amd64/helm /usr/local/bin/helm'
-        sh 'helm version'
+      steps {
+         sh 'wget https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz'
+         sh 'tar -xvzf helm-v3.6.1-linux-amd64.tar.gz'
+         sh 'sudo cp linux-amd64/helm /usr/local/bin/helm'
+         sh 'helm version'
     }
 }
     stage ('Helm Deploy') {
-   
       steps {
-        script {
-            sh "helm upgrade first --install mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
+         script {
+             sh "helm upgrade first --install mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
        
               }
            }
