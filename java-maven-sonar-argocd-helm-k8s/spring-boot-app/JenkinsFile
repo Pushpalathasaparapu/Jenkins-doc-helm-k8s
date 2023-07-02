@@ -45,18 +45,22 @@ pipeline {
         }
       }
     }
-    stage("Install Helm") {
+    stage('Install Helm') {
       steps {
          sh 'curl -LO https://get.helm.sh/helm-v3.6.1-linux-amd64.tar.gz'
          sh 'tar -xvzf helm-v3.6.1-linux-amd64.tar.gz'
          sh 'su -c "cp linux-amd64/helm /usr/local/bin/helm"'
          sh 'helm version'
+
+         // Authenticate with cluster
+         
+         sh 'aws eks --region us-east-1 update-kubeconfig --name java'
     }
 }
     stage ('Helm Deploy') {
       steps {
          script {
-             sh "KUBECONFIG=/root/.kube/config helm install myrelease mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER"
+             sh 'helm install myrelease mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER'
        
               }
            }
