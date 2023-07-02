@@ -45,19 +45,6 @@ pipeline {
         }
       }
     }
-    stage('Deploy to EKS with Helm') {
-            environment {
-                KUBECONFIG = "/root/.kube/config"
-                AWS_ACCESS_KEY_ID = "${credentials('aws-credentials').accessKey}" 
-                AWS_SECRET_ACCESS_KEY = "${credentials('aws-credentials').secretKey}"
-            }
-            steps {
-  
-               // Authenticate with cluster
-
-               sh 'aws eks --region us-east-1 update-kubeconfig --name java'
-    }
-} 
 
     stage('Install Helm') {
       steps {
@@ -67,6 +54,21 @@ pipeline {
          sh 'helm version'
     }
 }
+
+    stage('Deploy to EKS with Helm') {
+            environment {
+                KUBECONFIG = "/root/.kube/config"
+                AWS_ACCESS_KEY_ID = "${credentials('aws-credentials').accessKey}"
+                AWS_SECRET_ACCESS_KEY = "${credentials('aws-credentials').secretKey}"
+            }
+            steps {
+
+               // Authenticate with cluster
+
+               sh 'aws eks --region us-east-1 update-kubeconfig --name java'
+    }
+}
+
     stage ('Helm Deploy') {
       steps {
          script {
