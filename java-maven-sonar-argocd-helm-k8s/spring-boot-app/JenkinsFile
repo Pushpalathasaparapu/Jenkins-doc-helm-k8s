@@ -58,8 +58,8 @@ pipeline {
     stage('Deploy to EKS with Helm') {
             environment {
                 KUBECONFIG = "/root/.kube/config"
-                AWS_ACCESS_KEY_ID = credentials('aws-credentials').userAwsAccessKeyId
-                AWS_SECRET_ACCESS_KEY = credentials('aws-credentials').userAwsSecretKey
+                AWS_ACCESS_KEY_ID = "$credentials('aws-credentials').userAwsAccessKeyId}"
+                AWS_SECRET_ACCESS_KEY = "$credentials('aws-credentials').userAwsSecretKey}"
             }
             steps {
 
