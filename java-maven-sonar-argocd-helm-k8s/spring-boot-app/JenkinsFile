@@ -55,23 +55,10 @@ pipeline {
     }
 }
 
-    stage('Deploy to EKS with Helm') {
-            environment {
-                KUBECONFIG = "/root/.kube/config"
-                AWS_ACCESS_KEY_ID = "$credentials('aws-credentials').userAwsAccessKeyId}"
-                AWS_SECRET_ACCESS_KEY = "$credentials('aws-credentials').userAwsSecretKey}"
-            }
-            steps {
-
-               // Authenticate with cluster
-
-               sh 'aws eks --region us-east-1 update-kubeconfig --name java'
-    }
-}
-
     stage ('Helm Deploy') {
       steps {
          script {
+             sh 'aws eks --region us-east-1 update-kubeconfig --name java'
              sh 'helm install myrelease mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER'
        
               }
