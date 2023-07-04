@@ -62,9 +62,15 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = "$credentials('aws-credentials').userAwsSecretKey}"
       }
       steps {
+        // Install kubectl
+        sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
+        sh 'chmod +x kubectl'
+        sh 'mv kubectl /usr/local/bin/'
+
         // Authenticate the Helm client with Kubernetes cluster
         sh 'kubectl apply -f /root/.kube/config'
 
+        // Deploy with Helm
         script {
           sh 'helm install myrelease /root/Jenkins-doc-helm-k8s/java-maven-sonar-argocd-helm-k8s/spring-boot-app/mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER'
         }
