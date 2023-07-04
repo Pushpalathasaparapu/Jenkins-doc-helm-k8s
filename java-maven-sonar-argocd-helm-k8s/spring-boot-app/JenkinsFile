@@ -59,7 +59,7 @@ pipeline {
       steps {
          script {
              sh 'aws eks --region us-east-1 update-kubeconfig --name java'
-             sh 'helm install myrelease mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER'
+             sh 'helm install myrelease /root/Jenkins-doc-helm-k8s/java-maven-sonar-argocd-helm-k8s/spring-boot-app/mychart --namespace helm-deployment --set image.tag=$BUILD_NUMBER'
        
               }
            }
