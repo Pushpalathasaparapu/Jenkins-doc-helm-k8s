@@ -7,6 +7,7 @@ pipeline {
   }
   environment {
      PATH="/usr/bin/:$PATH"
+     ANS_HOME = tool('ansible')
    }
   stages {
     stage('Checkout') {
