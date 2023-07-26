@@ -29,6 +29,17 @@ pipeline {
         }
       }
     }
+     stage('Deploy to Tomcat') {
+      environment {
+            PATH="/usr/bin/ansible:$PATH"
+            ANS_HOME = tool('ansible')
+       }
+      steps {
+        // Run the Ansible playbook to deploy the JAR file to Tomcat
+        sh 'ansible --version'
+        sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
+      }
+    }
     stage('Build and Push Docker Image') {
       environment {
         DOCKER_IMAGE = "pushpasaparapu/pipeline:${BUILD_NUMBER}"
@@ -43,17 +54,6 @@ pipeline {
                 dockerImage.push()
             }
         }
-      }
-    }
-    stage('Deploy to Tomcat') {
-      environment {
-            PATH="/usr/bin/ansible:$PATH"
-            ANS_HOME = tool('ansible')
-       }
-      steps {
-        // Run the Ansible playbook to deploy the JAR file to Tomcat
-        sh 'ansible --version'
-        sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
       }
     }
   }
