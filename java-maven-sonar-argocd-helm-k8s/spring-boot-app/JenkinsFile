@@ -31,7 +31,7 @@ pipeline {
     }
      stage('Deploy to Tomcat') {
       environment {
-            PATH="/usr/bin/ansible:$PATH"
+            PATH="/usr/bin/:$PATH"
             ANS_HOME = tool('ansible')
        }
       steps {
