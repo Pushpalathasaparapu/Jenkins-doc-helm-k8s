@@ -48,7 +48,7 @@ pipeline {
     stage('Deploy to Tomcat') {
       steps {
         // Run the Ansible playbook to deploy the JAR file to Tomcat
-        sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
+        sh '/usr/bin/ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
       }
     }
   }
