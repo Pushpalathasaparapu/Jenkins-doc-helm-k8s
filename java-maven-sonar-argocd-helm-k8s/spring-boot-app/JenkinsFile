@@ -5,10 +5,6 @@ pipeline {
       args '--user root -v /var/run/docker.sock:/var/run/docker.sock' // mount Docker socket to access the host's Docker daemon
     }
   }
-  environment {
-     PATH="/usr/bin/ansible:$PATH"
-     ANS_HOME = tool('ansible')
-   }
   stages {
     stage('Checkout') {
       steps {
@@ -50,9 +46,13 @@ pipeline {
       }
     }
     stage('Deploy to Tomcat') {
+      environment {
+            PATH="/usr/bin/ansible:$PATH"
+            ANS_HOME = tool('ansible')
+       }
       steps {
         // Run the Ansible playbook to deploy the JAR file to Tomcat
-        sh '/usr/bin/ansible --version'
+        sh 'ansible --version'
         sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
       }
     }
