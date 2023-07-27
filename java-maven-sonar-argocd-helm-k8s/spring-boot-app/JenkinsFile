@@ -8,8 +8,8 @@ pipeline {
  // }
   agent any
    tools {
-   maven 'MAVEN_HOME'
-   jdk 'JAVA_HOME'
+   maven 'maven'
+   jdk 'java-11'
   }
   stages {
     stage('Checkout') {
