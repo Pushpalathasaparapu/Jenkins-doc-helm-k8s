@@ -1,0 +1,16 @@
+---
+- name: Deploy JAR to Tomcat
+  hosts: tomcat_servers
+  become: yes
+  tasks:
+    - name: Copy JAR to Tomcat server
+      copy:
+        src: /root/Jenkins-doc-helm-k8s/java-maven-sonar-argocd-helm-k8s/spring-boot-app/target/spring-boot-web.jar
+        dest: /opt/apache-tomcat-8.5.35/webapps/spring-boot-web.jar
+        mode: '0644'
+
+    - name: Restart Tomcat
+      systemd:
+        name: tomcat
+        state: restarted
+
