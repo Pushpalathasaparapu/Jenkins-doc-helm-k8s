@@ -35,7 +35,7 @@ pipeline {
         //echo '$PATH'
         //sh 'pwd'
         //sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
-	ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventoryfile.yml', playbook: 'playbook.yml'
+	ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ec2-user', inventory: 'inventoryfile.yml', playbook: 'playbook.yml'
       }
     }
     stage('Build and Push Docker Image') {
