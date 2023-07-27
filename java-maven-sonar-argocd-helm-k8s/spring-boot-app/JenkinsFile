@@ -30,15 +30,12 @@ pipeline {
       }
     }
      stage('Deploy to Tomcat') {
-      environment {
-            PATH="/usr/bin/:$PATH"
-            ANS_HOME = tool('ansible')
-       }
       steps {
         // Run the Ansible playbook to deploy the JAR file to Tomcat
-        echo '$PATH'
-        sh 'pwd'
-        sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
+        //echo '$PATH'
+        //sh 'pwd'
+        //sh 'ansible-playbook -i /etc/ansible/inventoryfile.yml /etc/ansible/playbook.yml'
+	ansiblePlaybook credentialsId: 'private-key', disableHostKeyChecking: true, installation: 'ansible', inventory: 'inventoryfile.yml', playbook: 'playbook.yml'
       }
     }
     stage('Build and Push Docker Image') {
